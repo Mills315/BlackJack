@@ -15,7 +15,10 @@ public class Main {
         List<Player> players = newPlayer();
         shuffle(deck);
         printCards(deck);
-        dealCards(deck, players);
+        dealCards(deck, players.get(0).getHand(), players);
+        addCard(deck, players);
+        printCards(deck);
+        printPlayerCards(players.get(0).hand);
 
 
     }
@@ -55,9 +58,19 @@ public class Main {
         }
     }
 
-    private static void dealCards(List<Card> deck, List<Player> players) {
-        for (Player player : players) {
+    private static void printPlayerCards(List<Card> hand) {
+        for (Card card : hand) {
+            System.out.println("Dit is de " + card.getSuit() + " " + card.getRank() + " met een waarde van " + card.getValue() + ".");
         }
     }
 
+    private static void dealCards(List<Card> deck, List<Card> hand, List<Player> players) {
+        players.get(0).hand.add(0, deck.get(0));
+        deck.remove(0);
+    }
+
+
+    private static void addCard(List<Card> deck, List<Player> players) {
+
+    }
 }
