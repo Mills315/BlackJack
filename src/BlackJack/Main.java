@@ -14,6 +14,8 @@ public class Main {
         List<Card> deck = getDeck();
         List<Player> players = newPlayer();
         shuffle(deck);
+        printCards(deck);
+        dealCards(deck, players);
 
 
     }
@@ -23,24 +25,17 @@ public class Main {
         players.add(new Player("Yoran"));
         players.add(new Player("Jake"));
         players.add(new Player("Louis"));
+        players.add(new Player("Dealer"));
         return players;
     }
 
     static List<Card> getDeck() {
-        int[] value = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] value = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
         char[] ranks = new char[]{'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
         char[] suits = new char[]{'♠', '♥', '♣', '♦'};
         List<Card> deck = new ArrayList<>();
         for (int i = 0; i <= 12; i++) {
-            if(value.equals(10)){
-                deck.add(new Card(ranks[i], suits[0], value[i]));
-                deck.add(new Card(ranks[i+1], suits[0], value[i]));
-                deck.add(new Card(ranks[i+2], suits[0], value[i]));
-                deck.add(new Card(ranks[i+3], suits[0], value[i]));
-
-            } else {
-                deck.add(new Card(ranks[i], suits[0], value[i]));
-            }
+            deck.add(new Card(ranks[i], suits[0], value[i]));
         }
         for (int i = 0; i <= 12; i++) {
             deck.add(new Card(ranks[i], suits[1], value[i]));
@@ -59,4 +54,10 @@ public class Main {
             System.out.println("Dit is de " + card.getSuit() + " " + card.getRank() + " met een waarde van " + card.getValue() + ".");
         }
     }
+
+    private static void dealCards(List<Card> deck, List<Player> players) {
+        for (Player player : players) {
+        }
+    }
+
 }
