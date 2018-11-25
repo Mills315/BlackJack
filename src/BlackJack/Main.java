@@ -179,17 +179,24 @@ public class Main {
     }
 
     private static void standDown(List<Player> players) {
-        if(players.get(players.size()-1).getStatus().equals("Bust")){
+        if (players.get(players.size() - 1).getStatus().equals("Bust")) {
             pause();
             System.out.println("Everybody wins!!");
             pause();
             System.out.println("Except for the people who were already bust, of course");
         } else {
-            for (Player player : players){
-                if(player.getStatus().equals("Bust")){
+            for (Player player : players) {
+                if (player.getStatus().equals("Bust")) {
                     System.out.println("De deler wint van: " + player.getName() + ". Helaas, volgende keer beter!");
+                    pause();
+                    break;
                 }
-                if(handValue(player.hand) > handValue(players.get(players.size()-1).hand)){
+                if (player.getStatus().equals("BlackJack")) {
+                    System.out.println("De speler " + player.getName() + " heeft Blackjack! Gefeliciteerd, u wint.");
+                    pause();
+                    break;
+                }
+                if (handValue(player.hand) > handValue(players.get(players.size() - 1).hand)) {
                     pause();
                     System.out.println("De speler " + player.getName() + " wint!!");
                 } else {
