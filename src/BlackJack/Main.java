@@ -8,14 +8,26 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // maak een deck en een lijst met spelers
+
         List<Card> deck = getDeck();
         List<Player> players = newPlayer();
+
+        // schud de kaarten
+
         shuffle(deck);
-        printCards(deck);
-        dealCards(deck, players);
+        //System.out.println();
+        //printCards(deck);
+        //System.out.println();
 
         // de kaarten worden 1 voor 1 gedeeld! de loop stopt 1 index eerder zodat de dealer maar 1 kaart krijgt.
+        dealCards(deck, players);
+
+        // Het spel wordt in addcard gespeeld. er zit een while loopje in voor elke speler. na een stand / bust zou de beurt (for loop) in principe door moeten gaan naar de volgende speler.
+
         addCard(deck, players);
+
+        /*
         System.out.println();
         System.out.println("Dit zijn de kaarten van " + players.get(0).getName());
         printPlayerCards(players.get(0).hand);
@@ -34,7 +46,7 @@ public class Main {
         System.out.println("SPELER 1: U BENT AAN DE BEURT.");
         System.out.println("HIT OR STAND?");
         addCard(deck, players);
-
+        */
 
     }
 
@@ -82,6 +94,14 @@ public class Main {
         System.out.println("De waarde hiervan is " + totalvalue + ".");
     }
 
+    private static int handValue(List<Card> hand) {
+        int totalvalue = 0;
+        for (Card card : hand) {
+            totalvalue = totalvalue + card.getValue();
+        }
+        return totalvalue;
+    }
+
     private static void dealCards(List<Card> deck, List<Player> players) {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).hand.add(0, deck.get(0));
@@ -99,6 +119,10 @@ public class Main {
             String status = "turn";
             while (status.equals("turn")) {
                 System.out.println(players.get(i).getName() + ": U BENT AAN DE BEURT.");
+                System.out.println();
+                System.out.println("UW KAARTEN ZIJN: ");
+                printPlayerCards(players.get(i).hand);
+                System.out.println();
                 System.out.println("HIT OR STAND?");
                 Scanner scan = new Scanner(System.in);
                 System.out.println();
@@ -106,7 +130,19 @@ public class Main {
                 if (hos.equals("hit")) {
                     players.get(i).hand.add(0, deck.get(0));
                     deck.remove(0);
-                    printPlayerCards(players.get(i).hand);
+                    System.out.println();
+                    System.out.print("De kaart die u getrokken heeft is een: ");
+                    System.out.println(("" + players.get(i).hand.get(0).getSuit()) + (players.get(i).hand.get(0).getRank()));
+                    System.out.println();
+                    if (handValue(players.get(i).hand) > 21) {
+                        System.out.println("De waarde van uw hand is: " + handValue(players.get(i).hand));
+                        System.out.println("U bent BUST!");
+                    } else if (handValue(players.get(i).hand) == 21) {
+                        System.out.println("BLACKJACK!!!!");
+                    } else {
+                        System.out.println("De waarde van uw hand is: " + handValue(players.get(i).hand));
+                    }
+
                 } else {
                     status = "stand";
                 }
