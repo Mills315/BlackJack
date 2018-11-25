@@ -25,29 +25,8 @@ public class Main {
 
         // Het spel wordt in addcard gespeeld. er zit een while loopje in voor elke speler. na een stand / bust zou de beurt (for loop) in principe door moeten gaan naar de volgende speler.
 
-        addCard(deck, players);
-
-        /*
-        System.out.println();
-        System.out.println("Dit zijn de kaarten van " + players.get(0).getName());
-        printPlayerCards(players.get(0).hand);
-        System.out.println();
-        System.out.println("Dit zijn de kaarten van " + players.get(1).getName());
-        printPlayerCards(players.get(1).hand);
-        System.out.println();
-        System.out.println("Dit zijn de kaarten van " + players.get(2).getName());
-        printPlayerCards(players.get(2).hand);
-        System.out.println();
-        System.out.println("Dit zijn de kaarten van " + players.get(3).getName());
-        printPlayerCards(players.get(3).hand);
-
-        // schijnbaar gebruik je scanners voor user input. ik weet niet of ik het goed gebruik, maar here we go
-
-        System.out.println("SPELER 1: U BENT AAN DE BEURT.");
-        System.out.println("HIT OR STAND?");
-        addCard(deck, players);
-        */
-
+        playGame(deck, players);
+        dealerTurn(deck, players);
     }
 
     static List<Player> newPlayer() {
@@ -113,7 +92,7 @@ public class Main {
         }
     }
 
-    private static void addCard(List<Card> deck, List<Player> players) {
+    private static void playGame(List<Card> deck, List<Player> players) {
 
         for (int i = 0; i <= players.size() - 2; i++) {
             String status = "turn";
@@ -122,6 +101,12 @@ public class Main {
                 System.out.println();
                 System.out.println("UW KAARTEN ZIJN: ");
                 printPlayerCards(players.get(i).hand);
+                if (handValue(players.get(i).hand) == 21) {
+                    System.out.println("BLACKJACK!!!!");
+                    System.out.println();
+                    players.get(i).setStatus("BlackJack");
+                    break;
+                }
                 System.out.println();
                 System.out.println("HIT OR STAND?");
                 Scanner scan = new Scanner(System.in);
@@ -137,17 +122,28 @@ public class Main {
                     if (handValue(players.get(i).hand) > 21) {
                         System.out.println("De waarde van uw hand is: " + handValue(players.get(i).hand));
                         System.out.println("U bent BUST!");
+                        players.get(i).setStatus("Bust");
+                        System.out.println();
+                        break;
                     } else if (handValue(players.get(i).hand) == 21) {
                         System.out.println("BLACKJACK!!!!");
+                        System.out.println();
+                        players.get(i).setStatus("BlackJack");
+                        break;
                     } else {
-                        System.out.println("De waarde van uw hand is: " + handValue(players.get(i).hand));
+                        System.out.println();
                     }
 
                 } else {
+                    players.get(i).setStatus("Stand");
                     status = "stand";
                 }
-
             }
         }
+    }
+
+    private static void dealerTurn(List<Card> deck, List<Player> players){
+        System.out.println("Dealer turn!");
+
     }
 }
