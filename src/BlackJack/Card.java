@@ -7,10 +7,12 @@ public class Card {
 
     private char rank;
     private char suit;
+    private int value;
 
-    public Card(char rank, char suit) {
+    public Card(char rank, char suit, int value) {
         this.rank = rank;
         this.suit = suit;
+        this.value = value;
     }
 
     public char getRank() {
@@ -21,5 +23,11 @@ public class Card {
         return suit;
     }
 
+    public int getValue() {
+        return value;
+    }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
 }
