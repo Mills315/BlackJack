@@ -186,8 +186,11 @@ public class Main {
             System.out.println("Except for the people who were already bust, of course");
         } else {
             for (Player player : players) {
+                if(player.getName().equals("Dealer")){
+                    break;
+                }
                 if (player.getStatus().equals("Bust")) {
-                    System.out.println("De deler wint van: " + player.getName() + ". Helaas, volgende keer beter!");
+                    System.out.println("De deler wint van: " + player.getName() + ". Hij of zij was Bust. Helaas, volgende keer beter!");
                     pause();
                     break;
                 }
