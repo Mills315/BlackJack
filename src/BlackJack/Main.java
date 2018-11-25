@@ -27,6 +27,10 @@ public class Main {
 
         playGame(deck, players);
         dealerTurn(deck, players);
+
+        pause();
+
+        standDown(players);
     }
 
     static List<Player> newPlayer() {
@@ -151,26 +155,55 @@ public class Main {
 
     private static void dealerTurn(List<Card> deck, List<Player> players) {
         System.out.println("Dealer turn!");
-        System.out.print("The dealers cards are: ");
+        System.out.print("The dealer's card is: ");
         printPlayerCards(players.get(players.size() - 1).hand);
         pause();
-        while(handValue(players.get((players.size())-1).hand) < 16){
+        while (handValue(players.get((players.size()) - 1).hand) < 16) {
             pause();
             System.out.print("De dealer trekt een: ");
-            players.get(players.size()-1).hand.add(0, deck.get(0));
+            players.get(players.size() - 1).hand.add(0, deck.get(0));
             deck.remove(0);
             pause();
-            System.out.println("" + players.get(players.size()-1).hand.get(0).getSuit() + players.get(players.size()-1).hand.get(0).getSuit());
+            System.out.println("" + players.get(players.size() - 1).hand.get(0).getSuit() + players.get(players.size() - 1).hand.get(0).getRank());
             pause();
-            System.out.println();
-            break;
+            System.out.println("De waarde van zijn kaarten is nu: ");
+            System.out.println(handValue(players.get((players.size()) - 1).hand));
+            pause();
         }
-
+        if (handValue(players.get((players.size()) - 1).hand) > 21) {
+            players.get(players.size() - 1).setStatus("Bust");
+        }
+        if (handValue(players.get((players.size()) - 1).hand) <= 21) {
+            players.get(players.size() - 1).setStatus("Stand");
+        }
     }
+
+    private static void standDown(List<Player> players) {
+        if(players.get(players.size()-1).getStatus().equals("Bust")){
+            pause();
+            System.out.println("Everybody wins!!");
+            pause();
+            System.out.println("Except for the people who were already bust, of course");
+        } else {
+            for (Player player : players){
+                if(player.getStatus().equals("Bust")){
+                    System.out.println("De deler wint van: " + player.getName() + ". Helaas, volgende keer beter!");
+                }
+                if(handValue(player.hand) > handValue(players.get(players.size()-1).hand)){
+                    pause();
+                    System.out.println("De speler " + player.getName() + " wint!!");
+                } else {
+                    pause();
+                    System.out.println("De deler wint van: " + player.getName() + ". Helaas, volgende keer beter!");
+                }
+            }
+        }
+    }
+
 
     private static void pause() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1200);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
