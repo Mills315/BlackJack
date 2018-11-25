@@ -98,13 +98,16 @@ public class Main {
             String status = "turn";
             while (status.equals("turn")) {
                 System.out.println(players.get(i).getName() + ": U BENT AAN DE BEURT.");
+                pause();
                 System.out.println();
                 System.out.println("UW KAARTEN ZIJN: ");
                 printPlayerCards(players.get(i).hand);
+                pause();
                 if (handValue(players.get(i).hand) == 21) {
                     System.out.println("BLACKJACK!!!!");
                     System.out.println();
                     players.get(i).setStatus("BlackJack");
+                    pause();
                     break;
                 }
                 System.out.println();
@@ -118,17 +121,20 @@ public class Main {
                     System.out.println();
                     System.out.print("De kaart die u getrokken heeft is een: ");
                     System.out.println(("" + players.get(i).hand.get(0).getSuit()) + (players.get(i).hand.get(0).getRank()));
+                    pause();
                     System.out.println();
                     if (handValue(players.get(i).hand) > 21) {
                         System.out.println("De waarde van uw hand is: " + handValue(players.get(i).hand));
                         System.out.println("U bent BUST!");
                         players.get(i).setStatus("Bust");
                         System.out.println();
+                        pause();
                         break;
                     } else if (handValue(players.get(i).hand) == 21) {
                         System.out.println("BLACKJACK!!!!");
                         System.out.println();
                         players.get(i).setStatus("BlackJack");
+                        pause();
                         break;
                     } else {
                         System.out.println();
@@ -136,14 +142,37 @@ public class Main {
 
                 } else {
                     players.get(i).setStatus("Stand");
-                    status = "stand";
+                    pause();
+                    status = "";
                 }
             }
         }
     }
 
-    private static void dealerTurn(List<Card> deck, List<Player> players){
+    private static void dealerTurn(List<Card> deck, List<Player> players) {
         System.out.println("Dealer turn!");
+        System.out.print("The dealers cards are: ");
+        printPlayerCards(players.get(players.size() - 1).hand);
+        pause();
+        while(handValue(players.get((players.size())-1).hand) < 16){
+            pause();
+            System.out.print("De dealer trekt een: ");
+            players.get(players.size()-1).hand.add(0, deck.get(0));
+            deck.remove(0);
+            pause();
+            System.out.println("" + players.get(players.size()-1).hand.get(0).getSuit() + players.get(players.size()-1).hand.get(0).getSuit());
+            pause();
+            System.out.println();
+            break;
+        }
 
+    }
+
+    private static void pause() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
