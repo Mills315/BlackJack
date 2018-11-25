@@ -1,9 +1,6 @@
 package BlackJack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 import static java.util.Collections.shuffle;
 
@@ -16,8 +13,9 @@ public class Main {
         shuffle(deck);
         printCards(deck);
         dealCards(deck, players);
+
+        // de kaarten worden 1 voor 1 gedeeld! de loop stopt 1 index eerder zodat de dealer maar 1 kaart krijgt.
         addCard(deck, players);
-        printCards(deck);
         System.out.println();
         System.out.println("Dit zijn de kaarten van " + players.get(0).getName());
         printPlayerCards(players.get(0).hand);
@@ -30,6 +28,12 @@ public class Main {
         System.out.println();
         System.out.println("Dit zijn de kaarten van " + players.get(3).getName());
         printPlayerCards(players.get(3).hand);
+
+        // schijnbaar gebruik je scanners voor user input. ik weet niet of ik het goed gebruik, maar here we go
+
+        System.out.println("SPELER 1: U BENT AAN DE BEURT.");
+        System.out.println("HIT OR STAND?");
+        addCard(deck, players);
 
 
     }
@@ -70,9 +74,12 @@ public class Main {
     }
 
     private static void printPlayerCards(List<Card> hand) {
+        int totalvalue = 0;
         for (Card card : hand) {
-            System.out.println("Dit is de " + card.getSuit() + " " + card.getRank() + " met een waarde van " + card.getValue() + ".");
+            System.out.println("Een " + card.getSuit() + card.getRank() + ".");
+            totalvalue = totalvalue + card.getValue();
         }
+        System.out.println("De waarde hiervan is " + totalvalue + ".");
     }
 
     private static void dealCards(List<Card> deck, List<Player> players) {
@@ -86,8 +93,25 @@ public class Main {
         }
     }
 
-
     private static void addCard(List<Card> deck, List<Player> players) {
 
+        for (int i = 0; i <= players.size() - 2; i++) {
+            String status = "turn";
+            while (status.equals("turn")) {
+                System.out.println(players.get(i).getName() + ": U BENT AAN DE BEURT.");
+                System.out.println("HIT OR STAND?");
+                Scanner scan = new Scanner(System.in);
+                System.out.println();
+                String hos = scan.nextLine().toLowerCase();
+                if (hos.equals("hit")) {
+                    players.get(i).hand.add(0, deck.get(0));
+                    deck.remove(0);
+                    printPlayerCards(players.get(i).hand);
+                } else {
+                    status = "stand";
+                }
+
+            }
+        }
     }
 }
